@@ -4,7 +4,7 @@
 
 #include "Address.hpp"
 
-Address::Address(const std::string address)
+Address::Address(const std::string &address)
 {
     // parse like such as ":8000"
     if(address[0] == ':')
@@ -22,7 +22,7 @@ Address::Address(const std::string address)
 
     // check the address string have only one ":"
 
-    int colon_count = 0
+    int colon_count = 0;
     for(auto &i : address)
     {
         if(i == ':')
@@ -86,4 +86,39 @@ void Address::isNotAddress()
 {
     std::cerr << "Please input valid address(example   \":8000\" )" << std::endl;
     exit(EXIT_FAILURE);
+}
+
+void Address::port(int port)
+{
+    port_ = port;
+}
+
+int Address::port()
+{
+    return port_;
+}
+
+void Address::address(const std::string &address)
+{
+    // judge the address string is a valid ipv4 string
+    if(!util::IsIpv4(address))
+    {
+        isNotAddress();
+    }
+    address_ = address;
+}
+
+std::string Address::address()
+{
+    return address_;
+}
+
+const std::string Address::address() const
+{
+    return address_;
+}
+
+const int Address::port() const
+{
+    return port_;
 }

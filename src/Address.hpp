@@ -16,11 +16,15 @@ class Address
 {
 public:
     typedef std::vector<std::string> split_vector_string_type;
-    Address(const std::string address = ":8000");
+    Address(const std::string &address = ":8000");
+    void port(int port);
+    int port();
+    const int port() const;
+    void address(const std::string &address);
+    std::string address();
+    const std::string address() const;
 private:
-
     void isNotAddress();
-
     int port_;
     std::string address_;
 };

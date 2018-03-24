@@ -6,7 +6,8 @@
 #define NET_UTIL_HPP
 
 #include <cstring>
-
+#include <fcntl.h>
+#include <unistd.h>
 #include <string>
 #include <exception>
 #include <vector>
@@ -14,6 +15,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include "Common.hpp"
 
 
 class util
@@ -24,7 +26,7 @@ public:
 
     // 将ipv4地址字符串按"."分割
     // 按照ipv4地址的要求，每一段都是数字，并且在0～255之间判定
-    static bool IsIpv4(const std::string &address)
+    inline static bool IsIpv4(const std::string &address)
     {
         split_vector_string_type split_strings;
         boost::algorithm::split(split_strings, address, boost::algorithm::is_any_of("\\."),
@@ -57,7 +59,7 @@ public:
     }
 
     // judge the string is a number
-    static bool IsNum(const std::string &num)
+    inline static bool IsNum(const std::string &num)
     {
         auto len = num.length();
         if (len == 0)
@@ -70,6 +72,18 @@ public:
             }
         }
         return true;
+    }
+
+    // set socket file discreption be non-blocking
+    inline static bool SetSocketNonBlocking(file_description fd)
+    {
+        if(fd < 0)
+            return false;
+        int flag = fcntl(fd, F_GETFL, 0);
+        if (flag == -1)
+            return false;
+        flag = flag | O_NONBLOCK;
+        return (fcntl(fd, F_SETFL, flag) == 0) ? true : false;
     }
 };
 

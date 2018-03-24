@@ -2,12 +2,10 @@
 #include <memory>
 #include "src/Address.hpp"
 #include "src/util.hpp"
+#include <functional>
 
 int main()
 {
-    if(util::IsIpv4("12.a.143.112"))
-    {
-        std::cout << "是" << std::endl;
-    }
+    std::cout << std::equal_to<int>()(1,2) << std::endl;
     return 0;
 }
