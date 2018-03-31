@@ -5,4 +5,8 @@ include_directories(/usr/local/include/boost)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(net main.cpp src/sockets/Socket.cpp src/sockets/Socket.hpp src/sockets/Address.cpp src/sockets/Address.hpp src/sockets/util.hpp src/sockets/Common.hpp src/sockets/TcpSocket.cpp src/sockets/TcpSocket.hpp src/sockets/EpollSocket.cpp src/sockets/EpollSocket.hpp)
+set(SRC src/sockets/Socket.hpp
+        src/sockets/TcpSocket.cpp
+        src/sockets/TcpSocket.hpp src/sockets/SocketException.hpp src/sockets/TcpSocketServer.cpp src/sockets/TcpSocketServer.hpp src/sockets/TcpSocketClient.cpp src/sockets/TcpSocketClient.hpp)
+
+add_executable(net main.cpp ${SRC})
