@@ -11,15 +11,8 @@
 class TcpSocketServer : public TcpSocket
 {
 public:
-    enum {
-        SELECT = 1,
-        POLL = 2,
-        EPOLL = 3,
-        BLOCKING = 4,
-    };
     void onListen();
     void onBind();
-    void onModel(int model);
     void onAccept();
     void Run(std::function<void (int)> callback);
 

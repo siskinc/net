@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SRC src/sockets/Socket.hpp
         src/sockets/TcpSocket.cpp
-        src/sockets/TcpSocket.hpp src/sockets/SocketException.hpp src/sockets/TcpSocketServer.cpp src/sockets/TcpSocketServer.hpp src/sockets/TcpSocketClient.cpp src/sockets/TcpSocketClient.hpp)
+        src/sockets/TcpSocket.hpp
+        src/sockets/SocketException.hpp
+        src/sockets/TcpSocketServer.cpp
+        src/sockets/TcpSocketServer.hpp)
 
 add_executable(net main.cpp ${SRC})
