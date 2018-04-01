@@ -6,19 +6,29 @@
 #define NET_TCPSOCKETSERVER_HPP
 
 #include "TcpSocket.hpp"
+#include "Comment.hpp"
+#include "Util.hpp"
 #include <functional>
+#include <iostream>
+#include <sys/epoll.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 class TcpSocketServer : public TcpSocket
 {
 public:
-    void onListen();
+    void onListen(int backlog=128);
     void onBind();
+    void onSetNonBlocking();
     void onAccept();
-    void Run(std::function<void (int)> callback);
+    void Run(std::function<void (int)> callback, const int num_of_events = DEFAULT_EVENTS);
 
 private:
     sockaddr_in clientaddr_;
-    std::vector<file_description> client_fds_;
+    epoll_event event;
+    epoll_event *events;
+    file_description epoll_fd;
+    file_description client_fd_;
 };
 
 
