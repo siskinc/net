@@ -12,12 +12,15 @@
 #include "HTTPCode.hpp"
 #include "HTTPVersion.hpp"
 
+#include <fmt>
 
 class HTTPParser
 {
 public:
     HTTPParser();
+
     HTTPParser(const std::string &data);
+
     HTTPParser(const std::stringstream &data);
 
 private:
@@ -28,6 +31,10 @@ private:
     std::map<std::string, std::string> headers;
     std::string body;
 public:
+    void InitData(const std::string &data);
+
+    void InitData(const std::stringstream &data);
+
     HTTPCode GetCode() const;
 
     void SetCode(HTTPCode code);

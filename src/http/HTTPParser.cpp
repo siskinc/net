@@ -63,3 +63,20 @@ void HTTPParser::SetBody(const std::string &body)
 {
     HTTPParser::body = body;
 }
+
+void HTTPParser::InitData(const std::string &data)
+{
+    std::stringstream ss(data);
+    std::string http_version;
+    ss >> this->method
+       >> this->url
+       >> http_version;
+    if(http_version == "HTTP/1.1")
+        this->HTTPVersion_ = HTTP1_1;
+    else if(http_version == "HTTP/1.0")
+        this->HTTPVersion_ = HTTP1_0;
+    else{
+        //TODO
+
+    }
+}
