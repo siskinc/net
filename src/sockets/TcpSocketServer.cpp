@@ -76,10 +76,9 @@ void TcpSocketServer::Run(std::function<void(int)> callback, int num_of_events)
                 // if the file description of error is server file description
                 if(events[i].data.fd == this->fd)
                 {
-                    // TODO
+                    throw SocketException(errno);
                 }
                 // print error information
-                // TODO
                 close(events[i].data.fd);
                 continue;
             }

@@ -10,6 +10,6 @@ set(SRC src/sockets/Socket.hpp
         src/sockets/TcpSocket.hpp
         src/sockets/SocketException.hpp
         src/sockets/TcpSocketServer.cpp
-        src/sockets/TcpSocketServer.hpp src/sockets/Socket.cpp src/sockets/Comment.hpp src/sockets/Util.cpp src/sockets/Util.hpp)
+        src/sockets/TcpSocketServer.hpp src/sockets/Socket.cpp src/sockets/Comment.hpp src/sockets/Util.cpp src/sockets/Util.hpp src/http/HTTPParser.cpp src/http/HTTPParser.hpp src/http/HTTPCode.hpp src/http/HTTPVersion.hpp)
 
 add_executable(net main.cpp ${SRC})
