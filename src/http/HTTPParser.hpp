@@ -11,6 +11,8 @@
 
 #include "HTTPCode.hpp"
 #include "HTTPVersion.hpp"
+#include "HTTPVersionException.hpp"
+#include "../utils/String.hpp"
 
 #include <fmt>
 
@@ -33,7 +35,7 @@ private:
 public:
     void InitData(const std::string &data);
 
-    void InitData(const std::stringstream &data);
+    void InitData(std::stringstream &data);
 
     HTTPCode GetCode() const;
 
