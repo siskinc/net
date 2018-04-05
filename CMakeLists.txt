@@ -20,7 +20,10 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPParser.cpp
         src/http/HTTPParser.hpp
         src/http/HTTPCode.hpp
-        src/http/HTTPVersion.hpp src/http/HTTPVersionException.hpp src/utils/String.cpp src/utils/String.hpp)
+        src/http/HTTPVersion.hpp
+        src/http/HTTPVersionException.hpp
+        src/utils/String.cpp
+        src/utils/String.hpp)
 
 add_executable(net main.cpp ${SRC})
 
