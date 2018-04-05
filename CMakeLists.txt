@@ -23,7 +23,7 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPVersion.hpp
         src/http/HTTPVersionException.hpp
         src/utils/String.cpp
-        src/utils/String.hpp)
+        src/utils/String.hpp src/type_traits/ContainerTraits.hpp)
 
 add_executable(net main.cpp ${SRC})
 
