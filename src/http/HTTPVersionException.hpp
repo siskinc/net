@@ -11,7 +11,7 @@
 class HTTPVersionException : std::exception
 {
 public:
-    HTTPVersionException() {}
+    HTTPVersionException() = default;
 
 private:
     const char *what() const noexcept override

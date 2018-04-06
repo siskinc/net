@@ -109,7 +109,7 @@ ssize_t TcpSocket::onWrite(Socket::file_description fd, std::vector<char> &buffe
 template<int N>
 ssize_t TcpSocket::onWrite(Socket::file_description fd, std::array<char, N> &buffer)
 {
-    size_t len = N;
+    size_t len = static_cast<size_t>(N);
     size_t nwrite = 0;
     size_t leave_len = len;
     ssize_t ret = 0;
