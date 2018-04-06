@@ -14,7 +14,7 @@ public:
     HTTPVersionException() {}
 
 private:
-    const char *what() const override
+    const char *what() const noexcept override
     {
         return "Http version is error, please input a valid http version(HTTP/1.1 or HTTP/1.0)";
     }

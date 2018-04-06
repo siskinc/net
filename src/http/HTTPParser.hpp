@@ -14,7 +14,6 @@
 #include "HTTPVersionException.hpp"
 #include "../utils/String.hpp"
 
-#include <fmt>
 
 class HTTPParser
 {

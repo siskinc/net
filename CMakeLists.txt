@@ -3,9 +3,9 @@ project(net)
 
 include_directories(/usr/local/include/boost)
 
-include_directories(/usr/local/include/fmt)
+#include_directories(/usr/local/include/fmt)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 set(SRC src/sockets/Socket.hpp
         src/sockets/TcpSocket.cpp
