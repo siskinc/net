@@ -3,7 +3,7 @@ project(net)
 
 include_directories(/usr/local/include/boost)
 
-#include_directories(/usr/local/include/fmt)
+include_directories(/usr/local/include/fmt)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -23,7 +23,7 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPVersion.hpp
         src/http/HTTPVersionException.hpp
         src/utils/String.cpp
-        src/utils/String.hpp src/type_traits/IsContainerTraits.hpp)
+        src/utils/String.hpp src/type_traits/IsContainerTraits.hpp src/http/HTTPHeaderException.hpp)
 
 add_executable(net main.cpp ${SRC})
 

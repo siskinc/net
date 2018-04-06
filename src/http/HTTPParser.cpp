@@ -74,16 +74,36 @@ void HTTPParser::InitData(std::stringstream &data)
 {
     std::string http_version;
     data >> this->method
-       >> this->url
-       >> http_version;
+         >> this->url
+         >> http_version;
     String::Upper(http_version);
-    if(http_version == "HTTP/1.1")
+    if (http_version == "HTTP/1.1")
         this->HTTPVersion_ = HTTP1_1;
-    else if(http_version == "HTTP/1.0")
+    else if (http_version == "HTTP/1.0")
         this->HTTPVersion_ = HTTP1_0;
     else
         throw HTTPVersionException();
     std::string key, value, line;
-    while(std::getline(data, line))
-        std::cout << line << std::endl;
+    while (std::getline(data, line))
+    {
+        auto index = line.find(':');
+        if (index == std::string::npos)
+        {
+            throw HTTPHeaderException(line);
+        }
+
+        key = line.substr(0, index - 1),
+        value = line.substr(index);
+        headers[key] = value;
+    }
+}
+
+HTTPParser::HTTPParser(const std::string &data)
+{
+    InitData(data);
+}
+
+HTTPParser::HTTPParser(std::stringstream &data)
+{
+    InitData(data);
 }

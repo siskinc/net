@@ -12,17 +12,18 @@
 #include "HTTPCode.hpp"
 #include "HTTPVersion.hpp"
 #include "HTTPVersionException.hpp"
+#include "HTTPHeaderException.hpp"
 #include "../utils/String.hpp"
 
 
 class HTTPParser
 {
 public:
-    HTTPParser();
+    HTTPParser() = default;
 
-    HTTPParser(const std::string &data);
+    explicit HTTPParser(const std::string &data);
 
-    HTTPParser(const std::stringstream &data);
+    explicit HTTPParser(std::stringstream &data);
 
 private:
     HTTPCode code;
