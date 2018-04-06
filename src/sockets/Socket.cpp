@@ -13,7 +13,7 @@ Socket::Socket(const int port, const std::string &address)
     this->address.sin_port = htons(static_cast<uint16_t >(port));
     this->address.sin_family = AF_INET;
     fd = socket(AF_INET, SOCK_STREAM, 0);
-    if(fd == -1)
+    if (fd == -1)
     {
         throw SocketException(errno);
     }

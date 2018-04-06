@@ -16,7 +16,9 @@ class Socket
 {
 public:
     typedef int file_description;
+
     Socket();
+
     Socket(const int port, const std::string &address);
 
 protected:

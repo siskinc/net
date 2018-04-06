@@ -17,11 +17,15 @@
 class TcpSocketServer : public TcpSocket
 {
 public:
-    void onListen(int backlog=128);
+    void onListen(int backlog = 128);
+
     void onBind();
+
     void onSetNonBlocking();
+
     void onAccept();
-    void Run(std::function<void (int)> callback, const int num_of_events = DEFAULT_EVENTS);
+
+    void Run(std::function<void(int)> callback, const int num_of_events = DEFAULT_EVENTS);
 
 private:
     sockaddr_in clientaddr_;

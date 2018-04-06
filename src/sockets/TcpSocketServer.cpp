@@ -74,17 +74,16 @@ void TcpSocketServer::Run(std::function<void(int)> callback, int num_of_events)
             {
 
                 // if the file description of error is server file description
-                if(events[i].data.fd == this->fd)
+                if (events[i].data.fd == this->fd)
                 {
                     throw SocketException(errno);
                 }
                 // print error information
                 close(events[i].data.fd);
                 continue;
-            }
-            else if(this->fd == events[i].data.fd)
+            } else if (this->fd == events[i].data.fd)
             {
-                while(1)
+                while (1)
                 {
                     try
                     {
@@ -99,13 +98,12 @@ void TcpSocketServer::Run(std::function<void(int)> callback, int num_of_events)
                     event.data.fd = this->client_fd_;
                     event.events = EPOLLIN | EPOLLET;
                     ret = epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, this->client_fd_, &event);
-                    if(ret == -1)
+                    if (ret == -1)
                     {
                         throw SocketException(errno);
                     }
                 }
-            }
-            else
+            } else
             {
                 callback(events[i].data.fd);
             }

@@ -15,9 +15,9 @@ void TcpSocket::onRead(Socket::file_description fd, std::string &buffer)
 {
     auto chBuf = static_cast<char *>(malloc(buffer_size));
     int ret = 0;
-    while((ret = read(fd, chBuf, buffer_size) != 0))
+    while ((ret = read(fd, chBuf, buffer_size) != 0))
     {
-        if(ret == -1)
+        if (ret == -1)
         {
             throw SocketException(errno);
         }
@@ -29,14 +29,14 @@ void TcpSocket::onRead(Socket::file_description fd, std::vector<char> &buffer)
 {
     auto chBuf = static_cast<char *>(malloc(buffer_size));
     int ret = 0;
-    while((ret = read(fd, chBuf, buffer_size) != 0))
+    while ((ret = read(fd, chBuf, buffer_size) != 0))
     {
-        if(ret == -1)
+        if (ret == -1)
         {
             throw SocketException(errno);
         }
         ssize_t len = strlen(chBuf);
-        for(int i = 0; i < len; ++i)
+        for (int i = 0; i < len; ++i)
         {
             buffer.emplace_back(chBuf[i]);
         }
@@ -57,11 +57,11 @@ template<int N>
 void TcpSocket::onRead(Socket::file_description fd, std::array<char, N> &buffer)
 {
     int ret = 0;
-    int size = N-1;
+    int size = N - 1;
     int nread = 0;
-    while(size > 0 && (ret = read(fd, buffer.data()+nread, size) != 0))
+    while (size > 0 && (ret = read(fd, buffer.data() + nread, size) != 0))
     {
-        if(ret == -1)
+        if (ret == -1)
         {
             throw SocketException(errno);
         }
@@ -76,9 +76,9 @@ ssize_t TcpSocket::onWrite(Socket::file_description fd, std::string &buffer)
     size_t nwrite = 0;
     size_t leave_len = len;
     ssize_t ret = 0;
-    while(nwrite < len && (ret = write(fd, buffer.data()+nwrite, leave_len)))
+    while (nwrite < len && (ret = write(fd, buffer.data() + nwrite, leave_len)))
     {
-        if(ret == -1)
+        if (ret == -1)
         {
             throw SocketException(errno);
         }
@@ -94,9 +94,9 @@ ssize_t TcpSocket::onWrite(Socket::file_description fd, std::vector<char> &buffe
     size_t nwrite = 0;
     size_t leave_len = len;
     ssize_t ret = 0;
-    while(nwrite < len && (ret = write(fd, buffer.data()+nwrite, leave_len)))
+    while (nwrite < len && (ret = write(fd, buffer.data() + nwrite, leave_len)))
     {
-        if(ret == -1)
+        if (ret == -1)
         {
             throw SocketException(errno);
         }
@@ -113,9 +113,9 @@ ssize_t TcpSocket::onWrite(Socket::file_description fd, std::array<char, N> &buf
     size_t nwrite = 0;
     size_t leave_len = len;
     ssize_t ret = 0;
-    while(nwrite < len && (ret = write(fd, buffer.data()+nwrite, leave_len)))
+    while (nwrite < len && (ret = write(fd, buffer.data() + nwrite, leave_len)))
     {
-        if(ret == -1)
+        if (ret == -1)
         {
             throw SocketException(errno);
         }

@@ -7,9 +7,9 @@
 void String::Upper(std::string &str)
 {
     auto end = str.end();
-    for(auto it = str.begin(); it != end; ++it)
+    for (auto it = str.begin(); it != end; ++it)
     {
-        if(isalpha(*it) && islower(*it))
+        if (isalpha(*it) && islower(*it))
         {
             *it -= 32;
         }
@@ -19,9 +19,9 @@ void String::Upper(std::string &str)
 void String::Lower(std::string &str)
 {
     auto end = str.end();
-    for(auto it = str.begin(); it != end; ++it)
+    for (auto it = str.begin(); it != end; ++it)
     {
-        if(isalpha(*it) && isupper(*it))
+        if (isalpha(*it) && isupper(*it))
         {
             *it += 32;
         }
@@ -30,9 +30,9 @@ void String::Lower(std::string &str)
 
 bool String::isDigits(const std::string &str)
 {
-    for(auto &item : str)
+    for (auto &item : str)
     {
-        if(!isdigit(item))
+        if (!isdigit(item))
         {
             return false;
         }
@@ -49,11 +49,11 @@ bool String::isHexDigit(const char &c)
 
 bool String::isHexDigits(const std::string &str)
 {
-    bool begin_zerox = str.substr(0,2) == "0x";
+    bool begin_zerox = str.substr(0, 2) == "0x";
     auto begin = str.begin() + (begin_zerox ? 2 : 0), end = str.end();
-    for(auto item = begin; item != end; ++item)
+    for (auto item = begin; item != end; ++item)
     {
-        if(!isHexDigit(*item))
+        if (!isHexDigit(*item))
             return false;
     }
     return true;
@@ -72,11 +72,11 @@ bool String::isOctDigit(const char &c)
 bool String::isOctDigit(const std::string &str)
 {
 
-    bool begin_zero = str.substr(0,2) == "0x";
+    bool begin_zero = str.substr(0, 2) == "0x";
     auto begin = str.begin() + (begin_zero ? 1 : 0), end = str.end();
-    for(auto item = begin; item != end; ++item)
+    for (auto item = begin; item != end; ++item)
     {
-        if(!isOctDigit(*item))
+        if (!isOctDigit(*item))
             return false;
     }
     return true;

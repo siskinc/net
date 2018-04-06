@@ -19,7 +19,7 @@ public:
         error_str_ = strerror(errno);
     }
 
-    const char* what() const noexcept override
+    const char *what() const noexcept override
     {
         return error_str_.c_str();
     }
