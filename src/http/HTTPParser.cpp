@@ -84,26 +84,51 @@ void HTTPParser::InitData(std::stringstream &data)
     else
         throw HTTPVersionException();
     std::string key, value, line;
+
+    // delete last \n
+    std::getline(data, line);
+
+    // begin read and parser
     while (std::getline(data, line))
     {
+        if (line == "")
+            break;
         auto index = line.find(':');
         if (index == std::string::npos)
         {
             throw HTTPHeaderException(line);
         }
 
-        key = line.substr(0, index - 1),
-        value = line.substr(index);
+        key = line.substr(0, index),
+                value = line.substr(index + 2);
         headers[key] = value;
     }
+    data >> this->body;
+    while (std::getline(data, line))
+    {
+        this->body += "\n" + line;
+    }
+    std::cout << body << std::endl;
 }
 
 HTTPParser::HTTPParser(const std::string &data)
 {
-    InitData(data);
+    try
+    {
+        InitData(data);
+    } catch (HTTPHeaderException &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
 }
 
 HTTPParser::HTTPParser(std::stringstream &data)
 {
-    InitData(data);
+    try
+    {
+        InitData(data);
+    } catch (HTTPHeaderException &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
 }

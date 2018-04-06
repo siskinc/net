@@ -18,7 +18,7 @@ public:
 
     const char *what() const noexcept override
     {
-        auto w = fmt::format("information of headers error {}", error_str);
+        auto w = "information of headers error " + error_str;
         return w.data();
     }
 

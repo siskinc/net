@@ -3,8 +3,6 @@ project(net)
 
 include_directories(/usr/local/include/boost)
 
-include_directories(/usr/local/include/fmt)
-
 set(CMAKE_CXX_STANDARD 17)
 
 set(SRC src/sockets/Socket.hpp
@@ -27,4 +25,4 @@ set(SRC src/sockets/Socket.hpp
 
 add_executable(net main.cpp ${SRC})
 
-target_link_libraries(net fmt)
+target_link_libraries(net)
