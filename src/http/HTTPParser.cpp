@@ -4,125 +4,95 @@
 
 #include "HTTPParser.hpp"
 
-HTTPCode HTTPParser::GetCode() const
+http::HTTPCode http::HTTPParser::GetCode() const
 {
     return code;
 }
 
-void HTTPParser::SetCode(HTTPCode code)
+void http::HTTPParser::SetCode(http::HTTPCode code)
 {
-    HTTPParser::code = code;
+    http::HTTPParser::code = code;
 }
 
-const std::string &HTTPParser::GetMethod() const
+const std::string &http::HTTPParser::GetMethod() const
 {
     return method;
 }
 
-void HTTPParser::SetMethod(const std::string &method)
+void http::HTTPParser::SetMethod(const std::string &method)
 {
     HTTPParser::method = method;
 }
 
-const std::string &HTTPParser::GetUrl() const
+const std::string &http::HTTPParser::GetUrl() const
 {
     return url;
 }
 
-void HTTPParser::SetUrl(const std::string &url)
+void http::HTTPParser::SetUrl(const std::string &url)
 {
     HTTPParser::url = url;
 }
 
-HTTPVersion HTTPParser::GetHTTPVersion() const
+http::HTTPVersion http::HTTPParser::GetHTTPVersion() const
 {
     return HTTPVersion_;
 }
 
-void HTTPParser::SetHTTPVersion(HTTPVersion HTTPVersion)
+void http::HTTPParser::SetHTTPVersion(HTTPVersion HTTPVersion)
 {
     HTTPParser::HTTPVersion_ = HTTPVersion;
 }
 
-const std::map<std::string, std::string> &HTTPParser::GetHeaders() const
+const std::map<std::string, std::string> &http::HTTPParser::GetHeaders() const
 {
     return headers;
 }
 
-void HTTPParser::SetHeaders(const std::map<std::string, std::string> &headers)
+void http::HTTPParser::SetHeaders(const std::map<std::string, std::string> &headers)
 {
     HTTPParser::headers = headers;
 }
 
-const std::string &HTTPParser::GetBody() const
+const std::string &http::HTTPParser::GetBody() const
 {
     return body;
 }
 
-void HTTPParser::SetBody(const std::string &body)
+void http::HTTPParser::SetBody(const std::string &body)
 {
     HTTPParser::body = body;
 }
 
-void HTTPParser::InitData(const std::string &data)
+void http::HTTPParser::InitData(const std::string &data)
 {
-    std::stringstream ss(data);
-    InitData(ss);
-}
+    size_t start = 0;
+    size_t front = start;
+    size_t colon = 0;
+    std::string line;
 
-void HTTPParser::InitData(std::stringstream &data)
-{
-    std::string http_version;
-    data >> this->method
-         >> this->url
-         >> http_version;
-    String::Upper(http_version);
-    if (http_version == "HTTP/1.1")
-        this->HTTPVersion_ = HTTP1_1;
-    else if (http_version == "HTTP/1.0")
-        this->HTTPVersion_ = HTTP1_0;
-    else
-        throw HTTPVersionException();
-    std::string key, value, line;
-
-    // delete last \n
-    std::getline(data, line);
-
-    // begin read and parser
-    while (std::getline(data, line))
+    // handle the first line
+    start = data.find("\r\n", start);
+    line = data.substr(0, start);
+    ++start;
+    std::vector<std::string> vec;
+    boost::algorithm::split(vec, line, boost::is_any_of(" "));
+    this->code = static_cast<HTTPCode>(boost::lexical_cast<int>(vec[0]));
+    this->url = vec[1];
+    this->HTTPVersion_ = http_version::GetHTTPVersion(vec[2]);
+    while ((start = data.find("\r\n", start)))
     {
-        if (line == "")
+        if (start == front + 2)
             break;
-        auto index = line.find(':');
-        if (index == std::string::npos)
-        {
-            throw HTTPHeaderException(line);
-        }
+        line = data.substr(front + 2, start);
 
-        key = line.substr(0, index),
-                value = line.substr(index + 2);
-        headers[key] = value;
+        colon = line.find(":");
+        headers[line.substr(0, colon)] = line.substr(colon + 2);
     }
-    data >> this->body;
-    while (std::getline(data, line))
-    {
-        this->body += "\n" + line;
-    }
-    std::cout << body << std::endl;
+    this->body = data.substr(start);
 }
 
-HTTPParser::HTTPParser(const std::string &data)
-{
-    try
-    {
-        InitData(data);
-    } catch (HTTPHeaderException &e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-}
-
-HTTPParser::HTTPParser(std::stringstream &data)
+http::HTTPParser::HTTPParser(const std::string &data)
 {
     try
     {

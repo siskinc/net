@@ -5,6 +5,8 @@
 #ifndef NET_HTTPCODE_HPP
 #define NET_HTTPCODE_HPP
 
+namespace http {
+
 enum HTTPCode
 {
     CONTINUE = 100,
@@ -75,4 +77,5 @@ enum HTTPCode
     NETWORK_AUTHENTICATION_REQUIRED = 511,
 };
 
+}
 #endif //NET_HTTPCODE_HPP

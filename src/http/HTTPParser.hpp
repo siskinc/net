@@ -9,12 +9,14 @@
 #include <string>
 #include <map>
 
+#include <boost/lexical_cast.hpp>
 #include "HTTPCode.hpp"
 #include "HTTPVersion.hpp"
 #include "HTTPVersionException.hpp"
 #include "HTTPHeaderException.hpp"
 #include "../utils/String.hpp"
 
+namespace http {
 
 class HTTPParser
 {
@@ -23,7 +25,6 @@ public:
 
     explicit HTTPParser(const std::string &data);
 
-    explicit HTTPParser(std::stringstream &data);
 
 private:
     HTTPCode code;
@@ -34,8 +35,6 @@ private:
     std::string body;
 public:
     void InitData(const std::string &data);
-
-    void InitData(std::stringstream &data);
 
     HTTPCode GetCode() const;
 
@@ -63,5 +62,6 @@ public:
 
 };
 
+}
 
 #endif //NET_HTTPPARSER_HPP

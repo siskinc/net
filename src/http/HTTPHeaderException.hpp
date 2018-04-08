@@ -5,6 +5,8 @@
 #ifndef NET_HTTPHEADEREXCEPTION_HPP
 #define NET_HTTPHEADEREXCEPTION_HPP
 
+namespace http {
+
 #include <exception>
 #include <string>
 
@@ -36,5 +38,5 @@ public:
     }
 };
 
-
+}
 #endif //NET_HTTPHEADEREXCEPTION_HPP
