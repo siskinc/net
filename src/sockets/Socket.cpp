@@ -4,9 +4,12 @@
 
 #include "Socket.hpp"
 
-Socket::Socket() : Socket(8000, "127.0.0.1") {}
+Socket::Socket() : Socket("127.0.0.1", 8000)
+{
 
-Socket::Socket(const int port, const std::string &address)
+}
+
+Socket::Socket(std::string address, const int port)
 {
     bzero(&this->address, sizeof(this->address));
     this->address.sin_addr.s_addr = inet_addr(address.data());

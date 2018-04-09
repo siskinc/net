@@ -19,10 +19,12 @@ public:
 
     Socket();
 
-    Socket(const int port, const std::string &address);
+    Socket(std::string address, const int port);
 
 protected:
     sockaddr_in address;
+
+protected:
     file_description fd;
 };
 

@@ -21,7 +21,7 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPVersion.hpp
         src/http/HTTPVersionException.hpp
         src/utils/String.cpp
-        src/utils/String.hpp src/type_traits/IsContainerTraits.hpp src/http/HTTPHeaderException.hpp)
+        src/utils/String.hpp src/type_traits/IsContainerTraits.hpp src/http/HTTPHeaderException.hpp src/http/HTTPServer.cpp src/http/HTTPServer.hpp src/http/HTTPRequest.cpp src/http/HTTPRequest.hpp src/http/HTTPSession.cpp src/http/HTTPSession.hpp src/http/HTTPCookie.cpp src/http/HTTPCookie.hpp)
 
 add_executable(net main.cpp ${SRC})
 
