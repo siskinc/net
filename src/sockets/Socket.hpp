@@ -21,8 +21,11 @@ public:
 
     Socket(std::string address, const int port);
 
+
 protected:
     sockaddr_in address;
+
+    void SetAddress(std::string address, const int port);
 
 protected:
     file_description fd;
