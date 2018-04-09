@@ -28,6 +28,8 @@ public:
 
     void RemoveAttribute(std::string);
 
+protected:
+
 };
 
 }
