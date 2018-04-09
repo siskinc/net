@@ -6,7 +6,6 @@
 
 http::HTTPServer::HTTPServer(std::string address, int port) : Socket(address, port)
 {
-
 }
 
 http::HTTPServer::HTTPServer(std::string address_and_port)
@@ -36,6 +35,7 @@ http::HTTPServer::HTTPServer() : HTTPServer("127.0.0.1", 8000)
 
 void http::HTTPServer::onListen(int backlog)
 {
+    maxWait = static_cast<size_t>(backlog);
     TcpSocketServer::onListen(backlog);
 }
 
@@ -56,10 +56,56 @@ void http::HTTPServer::onAccept()
 
 void http::HTTPServer::AddQueue(int fd)
 {
-    fds.emplace(fd);
+    if (fds.size() <= maxWait)
+        fds.emplace(fd);
+    else
+        close(fd);
 }
 
 void http::HTTPServer::Run()
 {
+    std::function<void(int)> add_queue = std::bind(&HTTPServer::AddQueue, *this);
+    auto run = std::bind(&TcpSocketServer::Run, *this, add_queue);
+    auto application = std::bind(&HTTPServer::Application, *this);
+    std::thread runner(run);
+    std::thread applicationer(application);
+    runner.join();
+    applicationer.join();
 
 }
+
+size_t http::HTTPServer::GetMaxWait() const
+{
+    return maxWait;
+}
+
+void http::HTTPServer::SetMaxWait(size_t maxWait)
+{
+    HTTPServer::maxWait = maxWait;
+}
+
+void http::HTTPServer::Application()
+{
+    auto handler_fun = std::bind(&HTTPServer::Handler, *this);
+    while (true)
+    {
+        fds_mutex.lock();
+        if (!fds.empty())
+        {
+            std::string data;
+            int fd = fds.front();
+            fds.pop();
+            onRead(fd, data);
+            HTTPContext context(data);
+            std::thread handler(handler_fun, context, fd);
+            handler.join();
+        }
+        fds_mutex.unlock();
+    }
+}
+
+void http::HTTPServer::Handler(http::HTTPContext context, int fd)
+{
+
+}
+

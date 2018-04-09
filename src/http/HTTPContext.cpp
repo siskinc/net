@@ -19,6 +19,7 @@ void http::HTTPContext::InitData(std::string data)
     this->HTTPVersion_ = parser.GetHTTPVersion();
     this->headers = parser.GetHeaders();
     this->cookies = HTTPCookies(this->headers.get("Cookie"));
+    this->body = parser.GetBody();
 }
 
 http::HTTPContext::HTTPContext()

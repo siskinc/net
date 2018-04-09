@@ -31,6 +31,7 @@ protected:
     HTTPCookies cookies;
     HTTPSession sessons;
     HTTPHeaders headers;
+    std::string body;
     bool inited;
 public:
     HTTPCode GetCode() const;
