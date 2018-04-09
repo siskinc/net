@@ -6,6 +6,8 @@
 #define NET_HTTPREQUEST_HPP
 
 #include "HTTPParser.hpp"
+#include "HTTPCookie.hpp"
+#include <memory>
 
 namespace http {
 
@@ -17,10 +19,10 @@ public:
     HTTPRequest(std::string data);
 
 protected:
-    std::map<std::string, std::void_t> Session;
-    std::map<std::string, std::void_t> POST;
-    std::map<std::string, std::void_t> GET;
-    std::map<std::string, std::void_t> Cookie;
+    HTTPCode code;
+    std::string method;
+    std::string url;
+    HTTPVersion HTTPVersion_;
 };
 
 }

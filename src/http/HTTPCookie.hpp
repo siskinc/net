@@ -24,11 +24,11 @@ protected:
     std::string name;
     std::string value;
     std::string domain;
-    int maxAge;
+    int maxAge{};
     std::string path;
-    bool secure;
-    int version;
-    bool httpOnly;
+    bool secure{};
+    int version{};
+    bool httpOnly{};
     std::string purpose;
 public:
     const std::string &GetPurpose() const;

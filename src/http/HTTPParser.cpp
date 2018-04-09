@@ -86,7 +86,7 @@ void http::HTTPParser::InitData(const std::string &data)
             break;
         line = data.substr(front + 2, start);
 
-        colon = line.find(":");
+        colon = line.find(':');
         headers[line.substr(0, colon)] = line.substr(colon + 2);
     }
     this->body = data.substr(start);
