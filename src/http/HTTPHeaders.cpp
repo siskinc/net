@@ -88,4 +88,14 @@ void http::HTTPHeaders::operator=(const std::map<std::string, std::string> &&hea
     this->headers = headers;
 }
 
+http::HTTPHeaders::HTTPHeaders(const std::map<std::string, std::string> &&headers)
+{
+    this->headers = headers;
+}
+
+http::HTTPHeaders::HTTPHeaders(const std::map<std::string, std::string> map)
+{
+    this->headers = headers;
+}
+
 

@@ -18,7 +18,7 @@ void http::HTTPContext::InitData(std::string data)
     this->url = parser.GetUrl();
     this->HTTPVersion_ = parser.GetHTTPVersion();
     this->headers = parser.GetHeaders();
-    this->cookies = HTTPCookies(this->headers.at("Cookie"));
+    this->cookies = HTTPCookies(this->headers.get("Cookie"));
 }
 
 http::HTTPContext::HTTPContext()
@@ -41,7 +41,7 @@ const std::string &http::HTTPContext::GetUrl() const
     return url;
 }
 
-http::HTTPVersion http::HTTPContext::GetHTTPVersion_() const
+http::HTTPVersion http::HTTPContext::GetHTTPVersion() const
 {
     return HTTPVersion_;
 }
@@ -49,4 +49,19 @@ http::HTTPVersion http::HTTPContext::GetHTTPVersion_() const
 bool http::HTTPContext::IsInited() const
 {
     return inited;
+}
+
+const http::HTTPCookies &http::HTTPContext::GetCookies() const
+{
+    return cookies;
+}
+
+const http::HTTPSession &http::HTTPContext::GetSessons() const
+{
+    return sessons;
+}
+
+const http::HTTPHeaders &http::HTTPContext::GetHeaders() const
+{
+    return headers;
 }

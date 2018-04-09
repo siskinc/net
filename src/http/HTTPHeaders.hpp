@@ -18,6 +18,10 @@ public:
 
     explicit HTTPHeaders(std::map<std::string, std::string> &&headers);
 
+    HTTPHeaders(const std::map<std::string, std::string> &&headers);
+
+    HTTPHeaders(const std::map<std::string, std::string> map);
+
     void operator=(std::map<std::string, std::string> &&headers);
 
     void operator=(const std::map<std::string, std::string> &&headers);

@@ -30,7 +30,7 @@ protected:
     HTTPVersion HTTPVersion_;
     HTTPCookies cookies;
     HTTPSession sessons;
-    std::map<std::string, std::string> headers;
+    HTTPHeaders headers;
     bool inited;
 public:
     HTTPCode GetCode() const;
@@ -39,9 +39,15 @@ public:
 
     const std::string &GetUrl() const;
 
-    HTTPVersion GetHTTPVersion_() const;
+    HTTPVersion GetHTTPVersion() const;
 
     bool IsInited() const;
+
+    const HTTPCookies &GetCookies() const;
+
+    const HTTPSession &GetSessons() const;
+
+    const HTTPHeaders &GetHeaders() const;
 };
 
 }
