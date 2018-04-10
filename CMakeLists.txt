@@ -36,7 +36,7 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPCookies.hpp
         src/http/HTTPHeaders.cpp
         src/http/HTTPHeaders.hpp
-        src/sockets/AddressListenException.hpp)
+        src/sockets/AddressListenException.hpp src/http/HTTPHandlers.cpp src/http/HTTPHandlers.hpp src/http/HTTPHandler.cpp src/http/HTTPHandler.hpp)
 
 
 add_executable(net main.cpp ${SRC})

@@ -7,6 +7,7 @@
 
 #include "../sockets/TcpSocketServer.hpp"
 #include "../sockets/AddressListenException.hpp"
+#include "HTTPHandlers.hpp"
 #include "HTTPContext.hpp"
 #include <queue>
 #include <functional>
@@ -46,20 +47,11 @@ public:
     void Handle(HTTPContext &&context, int fd);
 
 protected:
-    typedef std::map<std::string, std::function<void(HTTPContext)>> HandleFuns;
-    typedef std::map<std::string, HandleFuns> Handlers;
     std::queue<int> fds;
     size_t maxWait;
-    Handlers handlers;
-    bool isInitHandlers = false;
     boost::mutex queue_mut;
-protected:
-    void InitHandlers();
-
+    HTTPHandlers handlers{};
 public:
-    const Handlers &GetHandlers() const;
-
-    bool IsInitHandlers() const;
 
     size_t GetMaxWait() const;
 

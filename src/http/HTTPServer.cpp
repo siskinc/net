@@ -101,12 +101,8 @@ void http::HTTPServer::Application()
 
 void http::HTTPServer::Handle(http::HTTPContext &&context, int fd)
 {
-    std::string url = context.GetUrl();
-}
+    const std::string &url = context.GetUrl();
 
-const http::HTTPServer::Handlers &http::HTTPServer::GetHandlers() const
-{
-    return handlers;
 }
 
 void http::HTTPServer::InitHandlers()
