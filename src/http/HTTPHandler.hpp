@@ -7,17 +7,20 @@
 
 
 #include "HTTPContext.hpp"
+#include "HTTPMethods.hpp"
 #include <boost/function.hpp>
+#include <boost/container/vector.hpp>
 
 namespace http {
 
-class HTTPHandler
-{
+class HTTPHandler {
 public:
-    HTTPHandler(const boost::function<void(HTTPContext)> &handle, const std::string &relativePath);
+    HTTPHandler(boost::function<void(HTTPContext)> handle, boost::container::vector<HTTPMethods> methods,
+                std::string relativePath);
 
 private:
     boost::function<void(HTTPContext)> handle;
+    boost::container::vector<HTTPMethods> methods;
     std::string relativePath;
 public:
     const boost::function<void(HTTPContext)> &GetHandle() const;

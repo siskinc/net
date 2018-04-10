@@ -19,6 +19,7 @@ public:
 
     void InitData(std::string data);
 
+
 protected:
     std::shared_ptr<std::map<std::string, HTTPCookie>> cookies;
 
