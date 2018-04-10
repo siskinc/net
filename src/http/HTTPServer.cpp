@@ -4,9 +4,7 @@
 
 #include "HTTPServer.hpp"
 
-http::HTTPServer::HTTPServer(std::string address, int port) : Socket(address, port)
-{
-}
+http::HTTPServer::HTTPServer(std::string address, int port) : TcpSocketServer(address, port) {}
 
 http::HTTPServer::HTTPServer(std::string address_and_port)
 {
@@ -25,13 +23,9 @@ http::HTTPServer::HTTPServer(std::string address_and_port)
     port = boost::lexical_cast<int>(address_and_port.substr(colon + 1));
 
     Socket::SetAddress(address, port);
-
 }
 
-http::HTTPServer::HTTPServer() : HTTPServer("127.0.0.1", 8000)
-{
-
-}
+http::HTTPServer::HTTPServer() : HTTPServer("127.0.0.1", 8000) {}
 
 void http::HTTPServer::onListen(int backlog)
 {
@@ -64,14 +58,13 @@ void http::HTTPServer::AddQueue(int fd)
 
 void http::HTTPServer::Run()
 {
-    std::function<void(int)> add_queue = std::bind(&HTTPServer::AddQueue, *this);
-    auto run = std::bind(&TcpSocketServer::Run, *this, add_queue);
-    auto application = std::bind(&HTTPServer::Application, *this);
-    std::thread runner(run);
-    std::thread applicationer(application);
+    boost::function<void(int)> add_queue = boost::bind(&HTTPServer::AddQueue, this, boost::placeholders::_1);
+    auto application = boost::bind(&HTTPServer::Application, this);
+    auto run = boost::bind(&TcpSocketServer::Run, this, boost::placeholders::_1, boost::placeholders::_2);
+    boost::thread runner(run, add_queue, DEFAULT_EVENTS);
+    boost::thread applicationer(application);
     runner.join();
     applicationer.join();
-
 }
 
 size_t http::HTTPServer::GetMaxWait() const
@@ -86,10 +79,12 @@ void http::HTTPServer::SetMaxWait(size_t maxWait)
 
 void http::HTTPServer::Application()
 {
-    auto handler_fun = std::bind(&HTTPServer::Handler, *this);
+    boost::function<void(HTTPContext &&, int)> handler_fun = boost::bind(&HTTPServer::Handle, this,
+                                                                         boost::placeholders::_1,
+                                                                         boost::placeholders::_2);
     while (true)
     {
-        fds_mutex.lock();
+        queue_mut.lock();
         if (!fds.empty())
         {
             std::string data;
@@ -97,15 +92,29 @@ void http::HTTPServer::Application()
             fds.pop();
             onRead(fd, data);
             HTTPContext context(data);
-            std::thread handler(handler_fun, context, fd);
+            boost::thread handler(handler_fun, std::move(context), fd);
             handler.join();
         }
-        fds_mutex.unlock();
+        queue_mut.unlock();
     }
 }
 
-void http::HTTPServer::Handler(http::HTTPContext context, int fd)
+void http::HTTPServer::Handle(http::HTTPContext &&context, int fd)
 {
-
+    std::string url = context.GetUrl();
 }
 
+const http::HTTPServer::Handlers &http::HTTPServer::GetHandlers() const
+{
+    return handlers;
+}
+
+void http::HTTPServer::InitHandlers()
+{
+    isInitHandlers = true;
+}
+
+bool http::HTTPServer::IsInitHandlers() const
+{
+    return isInitHandlers;
+}

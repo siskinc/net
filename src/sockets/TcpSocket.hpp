@@ -16,6 +16,8 @@ class TcpSocket : public Socket
 public:
     TcpSocket();
 
+    TcpSocket(std::string address, const int port);
+
     virtual inline void onRead(file_description fd, std::string &buffer);
 
     virtual inline void onRead(file_description fd, std::vector<char> &buffer);

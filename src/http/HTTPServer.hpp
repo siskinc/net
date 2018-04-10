@@ -10,9 +10,9 @@
 #include "HTTPContext.hpp"
 #include <queue>
 #include <functional>
-#include <thread>
-#include <mutex>
 #include <boost/lexical_cast.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/thread/mutex.hpp>
 
 namespace http {
 
@@ -20,7 +20,7 @@ namespace {
 const int BUFFER_LEN = 1024;
 }
 
-class HTTPServer : TcpSocketServer
+class HTTPServer : public TcpSocketServer
 {
 public:
     HTTPServer();
@@ -43,17 +43,27 @@ public:
 
     void Application();
 
-    void Handler(HTTPContext context, int fd);
+    void Handle(HTTPContext &&context, int fd);
 
 protected:
+    typedef std::map<std::string, std::function<void(HTTPContext)>> HandleFuns;
+    typedef std::map<std::string, HandleFuns> Handlers;
     std::queue<int> fds;
     size_t maxWait;
-    std::mutex fds_mutex;
+    Handlers handlers;
+    bool isInitHandlers = false;
+    boost::mutex queue_mut;
+protected:
+    void InitHandlers();
+
 public:
+    const Handlers &GetHandlers() const;
+
+    bool IsInitHandlers() const;
+
     size_t GetMaxWait() const;
 
     void SetMaxWait(size_t maxWait);
-
 };
 
 }

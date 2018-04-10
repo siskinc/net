@@ -7,12 +7,12 @@
 
 #include <exception>
 
-class AddressListenException : std::exception
+class AddressListenException : public std::exception
 {
 public:
     AddressListenException() = default;
 
-    const char *what() const override
+    const char *what() const noexcept override
     {
         return "Please input valid address(egg: :8000 127.0.0.1:8000)";
     }

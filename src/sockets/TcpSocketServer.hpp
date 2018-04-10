@@ -14,9 +14,15 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <boost/function.hpp>
+
 class TcpSocketServer : public TcpSocket
 {
 public:
+    TcpSocketServer();
+
+    TcpSocketServer(std::string address, const int port);
+
     void onListen(int backlog = 128);
 
     void onBind();
@@ -25,7 +31,7 @@ public:
 
     void onAccept();
 
-    void Run(std::function<void(int)> callback, const int num_of_events = DEFAULT_EVENTS);
+    void Run(boost::function<void(int)> callback, const int num_of_events = DEFAULT_EVENTS);
 
 private:
     sockaddr_in clientaddr_;

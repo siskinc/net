@@ -5,6 +5,17 @@
 
 #include "TcpSocketServer.hpp"
 
+TcpSocketServer::TcpSocketServer()
+        : TcpSocketServer("127.0.0.1", 8000)
+{
+
+}
+
+TcpSocketServer::TcpSocketServer(std::string address, const int port) : TcpSocket(address, port)
+{
+
+}
+
 void TcpSocketServer::onBind()
 {
     int ret;
@@ -42,7 +53,7 @@ void TcpSocketServer::onAccept()
     }
 }
 
-void TcpSocketServer::Run(std::function<void(int)> callback, int num_of_events)
+void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events)
 {
     this->epoll_fd = epoll_create1(0);
     if (this->epoll_fd == -1)
@@ -110,3 +121,7 @@ void TcpSocketServer::Run(std::function<void(int)> callback, int num_of_events)
         }
     }
 }
+
+
+
+

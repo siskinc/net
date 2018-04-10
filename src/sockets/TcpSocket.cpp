@@ -6,10 +6,14 @@
 #include "TcpSocket.hpp"
 
 TcpSocket::TcpSocket()
+        : TcpSocket("127.0.0.1", 8000)
+{
+}
+
+TcpSocket::TcpSocket(std::string address, const int port) : Socket(address, port)
 {
     this->buffer_size = 1024;
 }
-
 
 void TcpSocket::onRead(Socket::file_description fd, std::string &buffer)
 {
@@ -124,6 +128,8 @@ ssize_t TcpSocket::onWrite(Socket::file_description fd, std::array<char, N> &buf
     }
     return nwrite;
 }
+
+
 
 
 

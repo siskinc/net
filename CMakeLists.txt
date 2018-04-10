@@ -21,8 +21,24 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPVersion.hpp
         src/http/HTTPVersionException.hpp
         src/utils/String.cpp
-        src/utils/String.hpp src/type_traits/IsContainerTraits.hpp src/http/HTTPHeaderException.hpp src/http/HTTPServer.cpp src/http/HTTPServer.hpp src/http/HTTPContext.cpp src/http/HTTPContext.hpp src/http/HTTPSession.cpp src/http/HTTPSession.hpp src/http/HTTPCookie.cpp src/http/HTTPCookie.hpp src/http/HTTPCookies.cpp src/http/HTTPCookies.hpp src/http/HTTPHeaders.cpp src/http/HTTPHeaders.hpp src/sockets/AddressListenException.hpp)
+        src/utils/String.hpp
+        src/type_traits/IsContainerTraits.hpp
+        src/http/HTTPHeaderException.hpp
+        src/http/HTTPServer.cpp
+        src/http/HTTPServer.hpp
+        src/http/HTTPContext.cpp
+        src/http/HTTPContext.hpp
+        src/http/HTTPSession.cpp
+        src/http/HTTPSession.hpp
+        src/http/HTTPCookie.cpp
+        src/http/HTTPCookie.hpp
+        src/http/HTTPCookies.cpp
+        src/http/HTTPCookies.hpp
+        src/http/HTTPHeaders.cpp
+        src/http/HTTPHeaders.hpp
+        src/sockets/AddressListenException.hpp)
+
 
 add_executable(net main.cpp ${SRC})
 
-target_link_libraries(net)
+target_link_libraries(net pthread boost_system boost_thread)
