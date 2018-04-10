@@ -102,5 +102,7 @@ void http::HTTPServer::Application()
 void http::HTTPServer::Handle(HTTPContext &context, int fd)
 {
     const std::string &url = context.GetUrl();
-
+    boost::function<void(HTTPContext)> handle = handlers.GetHandle(url);
+    handle(context);
+    context.onRead(fd);
 }

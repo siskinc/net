@@ -14,10 +14,13 @@ class HTTPHandlers {
 public:
     HTTPHandlers() = default;
     template <HTTPMethods ... args>
-    void AddHandler(boost::function<void(HTTPContext)> handler)
+    void SetHandler(boost::function<void(HTTPContext)> handler, std::string relativePath)
     {
-
+        boost::container::vector<HTTPMethods > methods{args...};
+        handlers.emplace_back(handler, std::move(methods), std::move(relativePath));
     }
+
+    boost::function<void(HTTPContext)> GetHandle(std::string url);
 private:
     boost::container::vector<HTTPHandler> handlers;
 };

@@ -20,9 +20,16 @@ public:
 
     explicit HTTPContext(std::string data);
 
-
-
     void InitData(std::string data);
+
+    void onRead(int fd);
+
+    void JSON(boost::container::map);
+
+    void render(std::string html);
+
+    void String(std::string ret);
+
 
 
 protected:

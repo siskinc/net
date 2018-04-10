@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 project(net)
 
 include_directories(/usr/local/include/boost)
+include_directories(/usr/local/include/glog)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -41,4 +42,4 @@ set(SRC src/sockets/Socket.hpp
 
 add_executable(util-cpp main.cpp ${SRC})
 
-target_link_libraries(util-cpp pthread boost_system boost_thread)
+target_link_libraries(util-cpp pthread boost_system boost_thread glog)
