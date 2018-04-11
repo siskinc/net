@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <initializer_list>
+#include <cmath>
 
 #include "Serialize.hpp"
 
