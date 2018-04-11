@@ -9,6 +9,7 @@
 #include "HTTPCookie.hpp"
 #include "HTTPCookies.hpp"
 #include "HTTPHeaders.hpp"
+#include "HTTPVersion.hpp"
 #include <memory>
 
 namespace http {
@@ -24,12 +25,11 @@ public:
 
     void onRead(int fd);
 
-    void JSON(boost::container::map);
+    void JSON(boost::container::map<std::string, std::string> &json, HTTPCode code = OK);
 
-    void render(std::string html);
+    void render(std::string html, HTTPCode code = OK);
 
-    void String(std::string ret);
-
+    void String(std::string ret, HTTPCode code = OK);
 
 
 protected:
@@ -41,7 +41,9 @@ protected:
     HTTPSession sessons;
     HTTPHeaders headers;
     std::string body;
+    std::string response_body;
     bool inited;
+
 public:
     HTTPCode GetCode() const;
 
@@ -58,6 +60,12 @@ public:
     const HTTPSession &GetSessons() const;
 
     const HTTPHeaders &GetHeaders() const;
+
+    const std::string &GetBody() const;
+
+    const std::string &GetResponse_body() const;
+
+    std::string GetHeadersString() const;
 };
 
 }

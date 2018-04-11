@@ -4,7 +4,12 @@
 
 #include "HTTPHandlers.hpp"
 
-boost::function<void(http::HTTPContext)> http::HTTPHandlers::GetHandle(std::string url)
+boost::function<void(http::HTTPContext &)> http::HTTPHandlers::GetHandle(const http::HTTPContext &context)
+{
+    return GetHandle(context.GetUrl());
+}
+
+boost::function<void(http::HTTPContext &)> http::HTTPHandlers::GetHandle(const std::string url)
 {
     for(auto& item : handlers)
     {
@@ -14,6 +19,6 @@ boost::function<void(http::HTTPContext)> http::HTTPHandlers::GetHandle(std::stri
         }
     }
 
-    // return the 404 not found
+    // TODO return the 404 not found
     return boost::function<void(http::HTTPContext)>();
 }

@@ -29,6 +29,21 @@ HTTPVersion GetHTTPVersion(std::string version)
         return HTTP1_0;
     }
 }
+
+const std::string HTTPVersion2Str(HTTPVersion version)
+{
+    std::string ret;
+    switch (version)
+    {
+        case HTTP1_0:
+            return "HTTP/1.0";
+        case HTTP1_1:
+            return "HTTP/1.1";
+        default:
+            return "";
+    }
+}
+
 }
 }
 

@@ -66,3 +66,38 @@ const http::HTTPHeaders &http::HTTPContext::GetHeaders() const
 {
     return headers;
 }
+
+void http::HTTPContext::onRead(int fd)
+{
+
+}
+
+const std::string &http::HTTPContext::GetResponse_body() const
+{
+    return response_body;
+}
+
+const std::string &http::HTTPContext::GetBody() const
+{
+    return body;
+}
+
+std::string http::HTTPContext::GetHeadersString() const
+{
+    return std::__cxx11::string();
+}
+
+void http::HTTPContext::JSON(boost::container::map<std::string, std::string> &json, http::HTTPCode code)
+{
+    response_body.clear();
+    std::string http_version = http_version::HTTPVersion2Str(GetHTTPVersion());
+    const std::string &http_code_description = GetHTTPCodeDescription(code);
+    const std::string &headers_string = GetHeadersString();
+
+    // TODO Json to string
+
+
+    //TODO format all string push into the string of response_body
+}
+
+
