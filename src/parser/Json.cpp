@@ -95,4 +95,38 @@ static void dump(const std::string &value, std::string &out)
     out += '"';
 }
 
+static void dump(const Json::array &values, string &out)
+{
+    bool first = true;
+    out += "[";
+    for (const auto &value:values)
+    {
+        if (!first)
+            out += ",";
+        value.dump(out);
+        first = false;
+    }
+    out += "]";
+}
+
+static void dump(const Json::object &values, string &out)
+{
+    bool first = true;
+    out += "{";
+    for (const auto &value :  values)
+    {
+        if (!first)
+            out += ",";
+        dump(value.first, out);
+        out += ":";
+        dump(value.second, out);
+        first = false;
+    }
+    out += "}";
+}
+
+void Json::dump(std::string &out) const {
+    m_ptr->dump(out);
+}
+
 }
