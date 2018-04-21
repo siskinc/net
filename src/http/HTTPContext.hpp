@@ -66,6 +66,8 @@ public:
     const std::string &GetResponse_body() const;
 
     std::string GetHeadersString() const;
+
+
 };
 
 }

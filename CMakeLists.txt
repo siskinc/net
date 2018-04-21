@@ -37,7 +37,15 @@ set(SRC src/sockets/Socket.hpp
         src/http/HTTPCookies.hpp
         src/http/HTTPHeaders.cpp
         src/http/HTTPHeaders.hpp
-        src/sockets/AddressListenException.hpp src/http/HTTPHandlers.cpp src/http/HTTPHandlers.hpp src/http/HTTPHandler.cpp src/http/HTTPHandler.hpp src/http/HTTPMethods.hpp src/parser/Json.cpp src/parser/Json.hpp src/parser/Serialize.hpp)
+        src/sockets/AddressListenException.hpp
+        src/http/HTTPHandlers.cpp
+        src/http/HTTPHandlers.hpp
+        src/http/HTTPHandler.cpp
+        src/http/HTTPHandler.hpp
+        src/http/HTTPMethods.hpp
+        src/parser/Serialize.hpp
+        src/parser/json11/json11.hpp
+        src/parser/json11/json11.cpp)
 
 
 add_executable(util-cpp main.cpp ${SRC})
