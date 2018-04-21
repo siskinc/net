@@ -87,17 +87,13 @@ std::string http::HTTPContext::GetHeadersString() const
     return std::__cxx11::string();
 }
 
-void http::HTTPContext::JSON(boost::container::map<std::string, std::string> &json, http::HTTPCode code)
+void http::HTTPContext::JSON(json11::Json &json, http::HTTPCode code)
 {
     response_body.clear();
-    std::string http_version = http_version::HTTPVersion2Str(GetHTTPVersion());
-    const std::string &http_code_description = GetHTTPCodeDescription(code);
-    const std::string &headers_string = GetHeadersString();
-
-    // TODO Json to string
-
-
-    //TODO format all string push into the string of response_body
+//    std::string http_version = http_version::HTTPVersion2Str(GetHTTPVersion());
+//    const std::string &http_code_description = GetHTTPCodeDescription(code);
+//    const std::string &headers_string = GetHeadersString();
+    std::string json_str;
+    json.dump(json_str);
+    response_body = json_str;
 }
-
-

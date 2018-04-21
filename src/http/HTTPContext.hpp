@@ -10,6 +10,7 @@
 #include "HTTPCookies.hpp"
 #include "HTTPHeaders.hpp"
 #include "HTTPVersion.hpp"
+#include "../parser/json11/json11.hpp"
 #include <memory>
 
 namespace http {
@@ -25,11 +26,17 @@ public:
 
     void onRead(int fd);
 
-    void JSON(boost::container::map<std::string, std::string> &json, HTTPCode code = OK);
+    void JSON(json11::Json &json, HTTPCode code = OK);
 
     void render(std::string html, HTTPCode code = OK);
 
     void String(std::string ret, HTTPCode code = OK);
+
+    // 一旦HTTPContext析构，就将HTTPContext中的数据发到客户端
+    ~HTTPContext()
+    {
+        //TODO
+    }
 
 
 protected:
@@ -66,8 +73,6 @@ public:
     const std::string &GetResponse_body() const;
 
     std::string GetHeadersString() const;
-
-
 };
 
 }
