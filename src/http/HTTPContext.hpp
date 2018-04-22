@@ -25,8 +25,6 @@ public:
 
     void InitData(std::string data);
 
-    void onRead(int fd);
-
     void JSON(json11::Json &json, HTTPCode code = OK);
 
     void render(std::string html, HTTPCode code = OK);

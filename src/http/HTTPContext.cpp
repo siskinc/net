@@ -67,11 +67,6 @@ const http::HTTPHeaders &http::HTTPContext::GetHeaders() const
     return headers;
 }
 
-void http::HTTPContext::onRead(int fd)
-{
-
-}
-
 const std::string &http::HTTPContext::GetResponse_body() const
 {
     return response_body;

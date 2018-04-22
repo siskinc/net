@@ -51,6 +51,8 @@ public:
     void SetMaxWait(size_t maxWait);
 
 protected:
+    void onRead(file_description fd, const HTTPContext &context);
+
     std::queue<int> fds;
     size_t maxWait;
     boost::mutex queue_mut;

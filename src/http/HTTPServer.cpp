@@ -80,8 +80,8 @@ void http::HTTPServer::SetMaxWait(size_t maxWait)
 void http::HTTPServer::Application()
 {
     boost::function<void(HTTPContext &, int)> handler_fun = boost::bind(&HTTPServer::Handle, this,
-                                                                         boost::placeholders::_1,
-                                                                         boost::placeholders::_2);
+                                                                        boost::placeholders::_1,
+                                                                        boost::placeholders::_2);
     while (true)
     {
         queue_mut.lock();
@@ -113,6 +113,12 @@ void http::HTTPServer::Handle(HTTPContext &context, int fd)
     {
         // TODO 500 handle
     }
-    context.onRead(fd);
+    onRead(fd, context);
     close(fd);
+}
+
+void http::HTTPServer::onRead(file_description fd, const http::HTTPContext &context)
+{
+    std::string data(std::move(context.ToString()));
+    onRead(fd, data);
 }
