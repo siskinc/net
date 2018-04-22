@@ -90,10 +90,33 @@ std::string http::HTTPContext::GetHeadersString() const
 void http::HTTPContext::JSON(json11::Json &json, http::HTTPCode code)
 {
     response_body.clear();
+    this->code = code;
 //    std::string http_version = http_version::HTTPVersion2Str(GetHTTPVersion());
 //    const std::string &http_code_description = GetHTTPCodeDescription(code);
 //    const std::string &headers_string = GetHeadersString();
     std::string json_str;
     json.dump(json_str);
     response_body = json_str;
+}
+
+void http::HTTPContext::String(std::string ret, http::HTTPCode code)
+{
+    response_body.clear();
+    this->code = code;
+    response_body = ret;
+}
+
+void http::HTTPContext::render(std::string html, http::HTTPCode code)
+{
+    std::ifstream file(html);
+    if (!file)
+    {
+        std::cerr << "Error! Incorrect file."
+                  << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::string contents{std::istream_iterator<char>(file), std::istream_iterator<char>()};
+    response_body.clear();
+    this->code = code;
+    response_body = contents;
 }

@@ -12,6 +12,7 @@
 #include "HTTPVersion.hpp"
 #include "../parser/json11/json11.hpp"
 #include <memory>
+#include <fstream>
 
 namespace http {
 
