@@ -15,17 +15,17 @@ namespace http {
 
 class HTTPHandler {
 public:
-    HTTPHandler(boost::function<void(HTTPContext)> handle, boost::container::vector<HTTPMethods> methods,
+    HTTPHandler(boost::function<void(HTTPContext&)> handle, boost::container::vector<HTTPMethods> methods,
                 std::string relativePath);
 
 private:
-    boost::function<void(HTTPContext)> handle;
+    boost::function<void(HTTPContext&)> handle;
     boost::container::vector<HTTPMethods> methods;
     std::string relativePath;
 public:
-    const boost::function<void(HTTPContext)> &GetHandle() const;
+    const boost::function<void(HTTPContext&)> &GetHandle() const;
 
-    void SetHandle(const boost::function<void(HTTPContext)> &handle);
+    void SetHandle(const boost::function<void(HTTPContext&)> &handle);
 
     const std::string &GetRelativePath() const;
 

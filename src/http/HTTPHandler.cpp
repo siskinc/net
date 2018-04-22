@@ -5,16 +5,16 @@
 #include "HTTPHandler.hpp"
 #include <utility>
 
-http::HTTPHandler::HTTPHandler(boost::function<void(http::HTTPContext)> handle,
+http::HTTPHandler::HTTPHandler(boost::function<void(http::HTTPContext&)> handle,
                                boost::container::vector<http::HTTPMethods> methods,
                                std::string relativePath) : handle(std::move(handle)), methods(std::move(methods)),
                                                            relativePath(std::move(relativePath)) {}
 
-const boost::function<void(http::HTTPContext)> &http::HTTPHandler::GetHandle() const {
+const boost::function<void(http::HTTPContext&)> &http::HTTPHandler::GetHandle() const {
     return handle;
 }
 
-void http::HTTPHandler::SetHandle(const boost::function<void(http::HTTPContext)> &handle) {
+void http::HTTPHandler::SetHandle(const boost::function<void(http::HTTPContext&)> &handle) {
     HTTPHandler::handle = handle;
 }
 

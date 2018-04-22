@@ -33,11 +33,7 @@ public:
 
     void String(std::string ret, HTTPCode code = OK);
 
-    // 一旦HTTPContext析构，就将HTTPContext中的数据发到客户端
-    ~HTTPContext()
-    {
-        //TODO
-    }
+    const std::string ToString() const;
 
 
 protected:

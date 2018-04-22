@@ -46,16 +46,15 @@ public:
 
     void Handle(HTTPContext &context, int fd);
 
+    size_t GetMaxWait() const;
+
+    void SetMaxWait(size_t maxWait);
+
 protected:
     std::queue<int> fds;
     size_t maxWait;
     boost::mutex queue_mut;
     HTTPHandlers handlers{};
-public:
-
-    size_t GetMaxWait() const;
-
-    void SetMaxWait(size_t maxWait);
 };
 
 }

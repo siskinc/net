@@ -98,4 +98,14 @@ http::HTTPHeaders::HTTPHeaders(const std::map<std::string, std::string> map)
     this->headers = headers;
 }
 
+const std::string http::HTTPHeaders::ToString() const
+{
+    std::string data{};
+    for(auto & item : headers)
+    {
+        data += item.first + ": " + item.second + "\r\n";
+    }
+    return data;
+}
+
 

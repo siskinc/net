@@ -44,6 +44,7 @@ public:
 
     void AddHeader(std::pair<std::string, std::string> &&header);
 
+    const std::string ToString() const;
 };
 
 }

@@ -120,3 +120,11 @@ void http::HTTPContext::render(std::string html, http::HTTPCode code)
     this->code = code;
     response_body = contents;
 }
+
+const std::string http::HTTPContext::ToString() const
+{
+    std::string data = http_version::HTTPVersion2Str(GetHTTPVersion()) + " " + std::to_string(this->code) + " " +
+                       GetHTTPCodeDescription(this->code) + "\r\n" + GetHeaders().ToString() + "\r\n" +
+                       response_body;
+    return data;
+}
