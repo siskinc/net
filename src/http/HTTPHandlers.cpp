@@ -11,14 +11,14 @@ boost::function<void(http::HTTPContext *)> http::HTTPHandlers::GetHandle(const h
 
 boost::function<void(http::HTTPContext *)> http::HTTPHandlers::GetHandle(const std::string url)
 {
-    for(auto& item : handlers)
+    for (auto &item : handlers)
     {
-        if(item.Match(url))
+        if (item.Match(url))
         {
             return item.GetHandle();
         }
     }
 
     // TODO return the 404 not found
-    return boost::function<void(http::HTTPContext)>();
+    return boost::function<void(http::HTTPContext *)>();
 }

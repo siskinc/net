@@ -32,19 +32,19 @@ public:
 
     void Run();
 
-    void onListen(int backlog = 128);
+    void onListen(int backlog = 128) override;
 
-    void onBind();
+    void onBind() override;
 
-    void onSetNonBlocking();
+    void onSetNonBlocking() override;
 
-    void onAccept();
+    void onAccept() override;
 
     void AddQueue(int fd);
 
     void Application();
 
-    void Handle(HTTPContext *context, int fd);
+    void Handle(HTTPContext &context, int fd);
 
     size_t GetMaxWait() const;
 

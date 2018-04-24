@@ -4,7 +4,7 @@
 
 #include "HTTPServer.hpp"
 
-http::HTTPServer::HTTPServer(std::string address, int port) : TcpSocketServer(address, port) {}
+http::HTTPServer::HTTPServer(std::string address, int port) : TcpSocketServer(std::move(address), port) {}
 
 http::HTTPServer::HTTPServer(std::string address_and_port)
 {
@@ -79,7 +79,7 @@ void http::HTTPServer::SetMaxWait(size_t maxWait)
 
 void http::HTTPServer::Application()
 {
-    boost::function<void(HTTPContext *, int)> handler_fun = boost::bind(&HTTPServer::Handle, this,
+    boost::function<void(HTTPContext &, int)> handler_fun = boost::bind(&HTTPServer::Handle, this,
                                                                         boost::placeholders::_1,
                                                                         boost::placeholders::_2);
     while (true)
@@ -99,16 +99,16 @@ void http::HTTPServer::Application()
     }
 }
 
-void http::HTTPServer::Handle(HTTPContext *context, int fd)
+void http::HTTPServer::Handle(HTTPContext &context, int fd)
 {
     {
-        //TODO middle ware handle
+        //TODO middle wares handle
     }
     boost::function<void(HTTPContext *)> handle;
     handle = handlers.GetHandle(context);
     try
     {
-        handle(context);
+        handle(&context);
     }
     catch (std::exception &e)
     {

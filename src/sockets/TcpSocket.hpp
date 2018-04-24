@@ -16,18 +16,18 @@ class TcpSocket : public Socket
 public:
     TcpSocket();
 
-    TcpSocket(std::string address, const int port);
+    TcpSocket(std::string address, int port);
 
-    virtual inline void onRead(file_description fd, std::string &buffer);
+    virtual void onRead(file_description fd, std::string &buffer);
 
-    virtual inline void onRead(file_description fd, std::vector<char> &buffer);
+    virtual void onRead(file_description fd, std::vector<char> &buffer);
 
     template<int N>
     inline static void onRead(file_description fd, std::array<char, N> &buffer);
 
-    virtual inline ssize_t onWrite(file_description fd, std::string &buffer);
+    virtual ssize_t onWrite(file_description fd, std::string &buffer);
 
-    virtual inline ssize_t onWrite(file_description fd, std::vector<char> &buffer);
+    virtual ssize_t onWrite(file_description fd, std::vector<char> &buffer);
 
     template<int N>
     inline static ssize_t onWrite(file_description fd, std::array<char, N> &buffer);
