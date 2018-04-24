@@ -79,7 +79,7 @@ void http::HTTPServer::SetMaxWait(size_t maxWait)
 
 void http::HTTPServer::Application()
 {
-    boost::function<void(HTTPContext &, int)> handler_fun = boost::bind(&HTTPServer::Handle, this,
+    boost::function<void(HTTPContext *, int)> handler_fun = boost::bind(&HTTPServer::Handle, this,
                                                                         boost::placeholders::_1,
                                                                         boost::placeholders::_2);
     while (true)
@@ -99,12 +99,13 @@ void http::HTTPServer::Application()
     }
 }
 
-void http::HTTPServer::Handle(HTTPContext &context, int fd)
+void http::HTTPServer::Handle(HTTPContext *context, int fd)
 {
     {
         //TODO middle ware handle
     }
-    boost::function<void(HTTPContext &)> handle = handlers.GetHandle(context);
+    boost::function<void(HTTPContext *)> handle;
+    handle = handlers.GetHandle(context);
     try
     {
         handle(context);

@@ -4,12 +4,12 @@
 
 #include "HTTPHandlers.hpp"
 
-boost::function<void(http::HTTPContext &)> http::HTTPHandlers::GetHandle(const http::HTTPContext &context)
+boost::function<void(http::HTTPContext *)> http::HTTPHandlers::GetHandle(const http::HTTPContext &context)
 {
     return GetHandle(context.GetUrl());
 }
 
-boost::function<void(http::HTTPContext &)> http::HTTPHandlers::GetHandle(const std::string url)
+boost::function<void(http::HTTPContext *)> http::HTTPHandlers::GetHandle(const std::string url)
 {
     for(auto& item : handlers)
     {

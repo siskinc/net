@@ -44,7 +44,7 @@ public:
 
     void Application();
 
-    void Handle(HTTPContext &context, int fd);
+    void Handle(HTTPContext *context, int fd);
 
     size_t GetMaxWait() const;
 
