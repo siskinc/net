@@ -4,6 +4,21 @@
 
 #include "HTTPContext.hpp"
 
+namespace http {
+std::string GetFileContext(std::string filename)
+{
+    std::ifstream file(filename);
+    if (!file)
+    {
+        std::cerr << "Error! Incorrect file."
+                  << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::string contents{std::istream_iterator<char>(file), std::istream_iterator<char>()};
+    return contents;
+}
+}
+
 http::HTTPContext::HTTPContext(std::string data)
 {
     InitData(std::move(data));
@@ -103,17 +118,9 @@ void http::HTTPContext::String(std::string ret, http::HTTPCode code)
 
 void http::HTTPContext::render(std::string html, http::HTTPCode code)
 {
-    std::ifstream file(html);
-    if (!file)
-    {
-        std::cerr << "Error! Incorrect file."
-                  << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    std::string contents{std::istream_iterator<char>(file), std::istream_iterator<char>()};
     response_body.clear();
     this->code = code;
-    response_body = contents;
+    response_body = GetFileContext(html);
 }
 
 const std::string http::HTTPContext::ToString() const
@@ -122,4 +129,16 @@ const std::string http::HTTPContext::ToString() const
                        GetHTTPCodeDescription(this->code) + "\r\n" + GetHeaders().ToString() + "\r\n" +
                        response_body;
     return data;
+}
+
+void http::HTTPContext::NotFound404(std::string filename)
+{
+    response_body.clear();
+    if (filename == "")
+    {
+        return;
+    }
+
+    this->code = code;
+    response_body = GetFileContext(filename);
 }

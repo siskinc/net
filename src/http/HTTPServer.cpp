@@ -90,7 +90,7 @@ void http::HTTPServer::Application()
             std::string data;
             int fd = fds.front();
             fds.pop();
-            onRead(fd, data);
+            TcpSocketServer::onRead(fd, data);
             HTTPContext context(data);
             boost::thread handler(handler_fun, context, fd);
             handler.join();
@@ -119,6 +119,6 @@ void http::HTTPServer::Handle(HTTPContext &context, int fd)
 
 void http::HTTPServer::onRead(file_description fd, const http::HTTPContext &context)
 {
-    std::string data(std::move(context.ToString()));
-    onRead(fd, data);
+    std::string data(context.ToString());
+    TcpSocketServer::onRead(fd, data);
 }

@@ -29,10 +29,11 @@ public:
 
     void render(std::string html, HTTPCode code = OK);
 
+    void NotFound404(std::string filename = "");
+
     void String(std::string ret, HTTPCode code = OK);
 
     const std::string ToString() const;
-
 
 protected:
     HTTPCode code;
