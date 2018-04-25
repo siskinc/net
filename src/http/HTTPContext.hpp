@@ -27,9 +27,11 @@ public:
 
     void JSON(json11::Json &json, HTTPCode code = OK);
 
-    void render(std::string html, HTTPCode code = OK);
+    void render(HTTPCode code, const std::string& html);
 
     void NotFound404(std::string filename = "");
+
+    void HTTPInternalServerError500(std::string filename = "");
 
     void String(std::string ret, HTTPCode code = OK);
 
@@ -41,7 +43,7 @@ protected:
     std::string url;
     HTTPVersion HTTPVersion_;
     HTTPCookies cookies;
-    HTTPSession sessons;
+    HTTPSession sessions;
     HTTPHeaders headers;
     std::string body;
     std::string response_body;
@@ -60,15 +62,16 @@ public:
 
     const HTTPCookies &GetCookies() const;
 
-    const HTTPSession &GetSessons() const;
-
     const HTTPHeaders &GetHeaders() const;
 
     const std::string &GetBody() const;
 
+    const HTTPSession &GetSessions() const;
+
     const std::string &GetResponse_body() const;
 
     std::string GetHeadersString() const;
+
 };
 
 }

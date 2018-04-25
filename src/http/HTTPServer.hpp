@@ -9,16 +9,24 @@
 #include "../sockets/AddressListenException.hpp"
 #include "HTTPHandlers.hpp"
 #include "HTTPContext.hpp"
+#include "HTTPMethods.hpp"
 #include <queue>
 #include <functional>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>
+#include <utility>
 
 namespace http {
 
 namespace {
 const int BUFFER_LEN = 1024;
+
+void NotFound404(std::string filename, HTTPContext *context)
+{
+    context->NotFound404(std::move(filename));
+}
+
 }
 
 class HTTPServer : public TcpSocketServer
@@ -40,6 +48,8 @@ public:
 
     void onAccept() override;
 
+    void onRead(file_description fd, const HTTPContext &context);
+
     void AddQueue(int fd);
 
     void Application();
@@ -50,13 +60,60 @@ public:
 
     void SetMaxWait(size_t maxWait);
 
-protected:
-    void onRead(file_description fd, const HTTPContext &context);
+    void SetNotFoundTemplateFilename(std::string filename);
 
+    template<HTTPMethods ... args>
+    inline void SetHandler(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<args...>(handler, relativePath);
+    }
+
+    inline void GET(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::GET>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void POST(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::POST>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void HEAD(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::HEAD>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void OPTIONS(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::OPTIONS>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void PUT(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::PUT>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void DELETE(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::DELETE>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void TRACE(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::TRACE>(std::move(handler), std::move(relativePath));
+    }
+
+    inline void CONNECT(boost::function<void(HTTPContext *)> handler, std::string relativePath)
+    {
+        handlers.SetHandler<HTTPMethods::CONNECT>(std::move(handler), std::move(relativePath));
+    }
+
+private:
     std::queue<int> fds;
     size_t maxWait;
     boost::mutex queue_mut;
     HTTPHandlers handlers{};
+    std::string NotFoundTemplateFilename;
 };
 
 }

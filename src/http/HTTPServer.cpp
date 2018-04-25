@@ -3,6 +3,7 @@
 //
 
 #include "HTTPServer.hpp"
+#include <utility>
 
 http::HTTPServer::HTTPServer(std::string address, int port) : TcpSocketServer(std::move(address), port) {}
 
@@ -122,4 +123,9 @@ void http::HTTPServer::onRead(file_description fd, const http::HTTPContext &cont
 {
     std::string data(context.ToString());
     TcpSocketServer::onRead(fd, data);
+}
+
+void http::HTTPServer::SetNotFoundTemplateFilename(std::string filename)
+{
+    this->NotFoundTemplateFilename = std::move(filename);
 }

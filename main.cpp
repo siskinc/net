@@ -7,6 +7,9 @@
 int main(int argc,char** argv)
 {
     http::HTTPServer server;
+    server.GET([](http::HTTPContext *context){
+        context->String("Hello World!", static_cast<http::HTTPCode>(200));
+        }, "/");
     server.onBind();
     server.onListen();
     server.Run();

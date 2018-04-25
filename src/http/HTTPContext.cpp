@@ -3,9 +3,10 @@
 //
 
 #include "HTTPContext.hpp"
+#include <utility>
 
 namespace http {
-std::string GetFileContext(std::string filename)
+std::string GetFileContext(const std::string &filename)
 {
     std::ifstream file(filename);
     if (!file)
@@ -72,14 +73,14 @@ const http::HTTPCookies &http::HTTPContext::GetCookies() const
     return cookies;
 }
 
-const http::HTTPSession &http::HTTPContext::GetSessons() const
-{
-    return sessons;
-}
-
 const http::HTTPHeaders &http::HTTPContext::GetHeaders() const
 {
     return headers;
+}
+
+const http::HTTPSession &http::HTTPContext::GetSessions() const
+{
+    return sessions;
 }
 
 const std::string &http::HTTPContext::GetResponse_body() const
@@ -113,10 +114,10 @@ void http::HTTPContext::String(std::string ret, http::HTTPCode code)
 {
     response_body.clear();
     this->code = code;
-    response_body = ret;
+    response_body = std::move(ret);
 }
 
-void http::HTTPContext::render(std::string html, http::HTTPCode code)
+void http::HTTPContext::render(http::HTTPCode code, const std::string &html)
 {
     response_body.clear();
     this->code = code;
@@ -134,11 +135,22 @@ const std::string http::HTTPContext::ToString() const
 void http::HTTPContext::NotFound404(std::string filename)
 {
     response_body.clear();
-    if (filename == "")
+    if (filename.empty())
     {
         return;
     }
-
     this->code = code;
     response_body = GetFileContext(filename);
 }
+
+void http::HTTPContext::HTTPInternalServerError500(std::string filename)
+{
+    response_body.clear();
+    if (filename.empty())
+    {
+        return;
+    }
+    this->code = code;
+    response_body = GetFileContext(filename);
+}
+
