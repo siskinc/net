@@ -207,7 +207,12 @@ const HTTPCodeDescription descriptions[] = {
 
 inline const std::string &GetHTTPCodeDescription(HTTPCode code)
 {
-    return descriptions[code].HTTP_code_description[1];
+    for(auto & item: descriptions)
+    {
+        if(code == item.code)
+            return item.HTTP_code_description[0];
+    }
+    return "";
 }
 
 }

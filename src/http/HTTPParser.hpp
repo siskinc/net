@@ -10,6 +10,7 @@
 #include <map>
 
 #include <boost/lexical_cast.hpp>
+#include <glog/logging.h>
 #include "HTTPCode.hpp"
 #include "HTTPVersion.hpp"
 #include "HTTPVersionException.hpp"

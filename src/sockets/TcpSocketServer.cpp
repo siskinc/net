@@ -3,6 +3,7 @@
 //
 
 
+
 #include "TcpSocketServer.hpp"
 
 TcpSocketServer::TcpSocketServer()
@@ -37,6 +38,7 @@ void TcpSocketServer::onListen(int backlog)
     ret = listen(fd, backlog);
     if (ret == -1)
     {
+        LOG(FATAL) << strerror(errno);
         throw SocketException(errno);
     }
 }
@@ -51,6 +53,7 @@ void TcpSocketServer::onAccept()
     {
         throw SocketException(errno);
     }
+    this->client_fd_ = ret;
 }
 
 void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events)
@@ -58,6 +61,7 @@ void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events
     this->epoll_fd = epoll_create1(0);
     if (this->epoll_fd == -1)
     {
+        LOG(ERROR) << "Run error : " << strerror(errno);
         throw SocketException(errno);
     }
 
@@ -68,6 +72,7 @@ void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events
     ret = epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, this->fd, &event);
     if (ret == -1)
     {
+        LOG(ERROR) << "add epoll file description error : " << strerror(errno);
         throw SocketException(errno);
     }
 
@@ -76,6 +81,7 @@ void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events
     int num, i;
     while (1)
     {
+        LOG(INFO) << "进入 Run 循环";
         num = epoll_wait(this->epoll_fd, events, num_of_events, -1);
         for (i = 0; i < num; ++i)
         {
@@ -83,10 +89,10 @@ void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events
                 (events[i].events & EPOLLHUP) ||
                 (!(events[i].events & EPOLLIN)))
             {
-
                 // if the file description of error is server file description
                 if (events[i].data.fd == this->fd)
                 {
+                    LOG(ERROR) << "server file description is error : " << strerror(errno);
                     throw SocketException(errno);
                 }
                 // print error information
@@ -102,7 +108,7 @@ void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events
                     }
                     catch (SocketException &e)
                     {
-                        std::cout << e.what() << std::endl;
+                        LOG(ERROR) << e.what();
                         break;
                     }
                     Util::SetNonBlocking(this->client_fd_);
@@ -111,17 +117,15 @@ void TcpSocketServer::Run(boost::function<void(int)> callback, int num_of_events
                     ret = epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, this->client_fd_, &event);
                     if (ret == -1)
                     {
+                        LOG(ERROR) << "Add file description of client is failed : " << strerror(errno);
                         throw SocketException(errno);
                     }
                 }
             } else
             {
+                LOG(INFO) << "Run callback function";
                 callback(events[i].data.fd);
             }
         }
     }
 }
-
-
-
-

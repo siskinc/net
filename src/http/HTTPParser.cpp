@@ -77,19 +77,27 @@ void http::HTTPParser::InitData(const std::string &data)
     ++start;
     std::vector<std::string> vec;
     boost::algorithm::split(vec, line, boost::is_any_of(" "));
-    this->code = static_cast<HTTPCode>(boost::lexical_cast<int>(vec[0]));
+    this->method = vec[0];
     this->url = vec[1];
     this->HTTPVersion_ = http_version::GetHTTPVersion(vec[2]);
     while ((start = data.find("\r\n", start)))
     {
+        LOG(INFO) << "循环" << "\nstart : " << start << " npos : " << std::string::npos << " " << (start == std::string::npos);
         if (start == front + 2)
             break;
-        line = data.substr(front + 2, start);
-
+        if (start == std::string::npos)
+        {
+            LOG(INFO) << "退出循环";
+            break;
+        }
+        line = data.substr(front + 2, start - (front + 2));
         colon = line.find(':');
         headers[line.substr(0, colon)] = line.substr(colon + 2);
+        front = start;
+        start += 2;
     }
-    this->body = data.substr(start);
+    this->body = data.substr(front + 4);
+
 }
 
 http::HTTPParser::HTTPParser(const std::string &data)
@@ -99,6 +107,6 @@ http::HTTPParser::HTTPParser(const std::string &data)
         InitData(data);
     } catch (HTTPHeaderException &e)
     {
-        std::cerr << e.what() << std::endl;
+        LOG(FATAL) << e.what();
     }
 }

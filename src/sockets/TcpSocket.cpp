@@ -18,15 +18,21 @@ TcpSocket::TcpSocket(std::string address, const int port) : Socket(address, port
 void TcpSocket::onRead(Socket::file_description fd, std::string &buffer)
 {
     auto chBuf = static_cast<char *>(malloc(buffer_size));
-    int ret = 0;
-    while ((ret = read(fd, chBuf, buffer_size) != 0))
+    ssize_t ret = 0;
+    while ((ret = read(fd, chBuf, buffer_size )) != 0)
     {
+        LOG(INFO) << "ret : " << ret;
         if (ret == -1)
         {
+            if(errno == 11)
+                break;
             throw SocketException(errno);
         }
         buffer += chBuf;
+        LOG(INFO) << "buffer len : " << buffer.length() ;
+        memset(chBuf, 0x00, buffer_size);
     }
+    free(chBuf);
 }
 
 void TcpSocket::onRead(Socket::file_description fd, std::vector<char> &buffer)
@@ -89,6 +95,7 @@ ssize_t TcpSocket::onWrite(Socket::file_description fd, std::string &buffer)
         nwrite += ret;
         leave_len -= ret;
     }
+    LOG(INFO) << "写入客户端完毕";
     return nwrite;
 }
 

@@ -2,6 +2,7 @@
 // Created by siskinc on 18-4-1.
 //
 
+#include <iostream>
 #include "Util.hpp"
 
 void Util::SetNonBlocking(int fd)
@@ -11,6 +12,7 @@ void Util::SetNonBlocking(int fd)
     flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1)
     {
+        std::cerr << "fd:" << fd << std::endl;
         throw SocketException(errno);
     }
     flags |= O_NONBLOCK;

@@ -30,7 +30,7 @@ HTTPVersion GetHTTPVersion(std::string version)
     }
 }
 
-const std::string HTTPVersion2Str(HTTPVersion version)
+const std::string HTTPVersion2Str(const HTTPVersion version)
 {
     std::string ret;
     switch (version)

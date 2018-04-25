@@ -10,6 +10,7 @@
 #include <array>
 #include <unistd.h>
 #include <cstring>
+#include <glog/logging.h>
 
 class TcpSocket : public Socket
 {

@@ -28,7 +28,9 @@ http::HTTPContext::HTTPContext(std::string data)
 void http::HTTPContext::InitData(std::string data)
 {
     this->inited = true;
+    LOG(INFO) << "Parse 开始";
     HTTPParser parser(data);
+    LOG(INFO) << "Parse 完成";
     this->code = parser.GetCode();
     this->method = parser.GetMethod();
     this->url = parser.GetUrl();
@@ -126,9 +128,15 @@ void http::HTTPContext::render(http::HTTPCode code, const std::string &html)
 
 const std::string http::HTTPContext::ToString() const
 {
-    std::string data = http_version::HTTPVersion2Str(GetHTTPVersion()) + " " + std::to_string(this->code) + " " +
+    LOG(INFO) << "开始ToString()";
+    LOG(INFO)<<http_version::HTTPVersion2Str(this->GetHTTPVersion());
+    LOG(INFO)<<std::to_string(this->code);
+    LOG(INFO)<<GetHTTPCodeDescription(this->code);
+    LOG(INFO)<<GetHeaders().ToString();
+    std::string data = http_version::HTTPVersion2Str(this->GetHTTPVersion()) + " " + std::to_string(this->code) + " " +
                        GetHTTPCodeDescription(this->code) + "\r\n" + GetHeaders().ToString() + "\r\n" +
                        response_body;
+    LOG(INFO) << "结束ToString()";
     return data;
 }
 

@@ -13,7 +13,7 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 #include <fcntl.h>
-
+#include <logging.h>
 #include <boost/function.hpp>
 
 class TcpSocketServer : public TcpSocket

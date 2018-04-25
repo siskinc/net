@@ -15,6 +15,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>
+#include <glog/logging.h>
 #include <utility>
 
 namespace http {
@@ -48,7 +49,7 @@ public:
 
     void onAccept() override;
 
-    void onRead(file_description fd, const HTTPContext &context);
+    void onWrite(file_description fd, const HTTPContext &context);
 
     void AddQueue(int fd);
 
