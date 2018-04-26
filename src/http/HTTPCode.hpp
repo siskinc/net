@@ -13,6 +13,7 @@ namespace http {
 //
 enum HTTPCode
 {
+    NUL = 0,
     CONTINUE = 100,
     SWITCHING_PROTOCOLS = 101,
     PROCESSING = 102,
@@ -91,6 +92,7 @@ namespace {
 
 const HTTPCodeDescription descriptions[] = {
         // https://www.rfc-editor.org/rfc/rfc7231.txt
+        {NUL,                             {"NUL", "NUL"}},
         {CONTINUE,                        {"Continue",
                                                   "The initial part of a request has been received and has not yet been rejected by the server."}},
         {SWITCHING_PROTOCOLS,             {"Switching Protocols",
@@ -207,12 +209,12 @@ const HTTPCodeDescription descriptions[] = {
 
 inline const std::string &GetHTTPCodeDescription(HTTPCode code)
 {
-    for(auto & item: descriptions)
+    for(auto &item: descriptions)
     {
         if(code == item.code)
             return item.HTTP_code_description[0];
     }
-    return "";
+    return descriptions[0].HTTP_code_description[0];
 }
 
 }

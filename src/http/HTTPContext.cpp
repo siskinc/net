@@ -116,6 +116,7 @@ void http::HTTPContext::String(std::string ret, http::HTTPCode code)
 {
     response_body.clear();
     this->code = code;
+    LOG(INFO) << this->code;
     response_body = std::move(ret);
 }
 

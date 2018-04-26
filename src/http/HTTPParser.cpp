@@ -82,12 +82,12 @@ void http::HTTPParser::InitData(const std::string &data)
     this->HTTPVersion_ = http_version::GetHTTPVersion(vec[2]);
     while ((start = data.find("\r\n", start)))
     {
-        LOG(INFO) << "循环" << "\nstart : " << start << " npos : " << std::string::npos << " " << (start == std::string::npos);
+//        LOG(INFO) << "循环" << "\nstart : " << start << " npos : " << std::string::npos << " " << (start == std::string::npos);
         if (start == front + 2)
             break;
         if (start == std::string::npos)
         {
-            LOG(INFO) << "退出循环";
+//            LOG(INFO) << "退出循环";
             break;
         }
         line = data.substr(front + 2, start - (front + 2));

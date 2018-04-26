@@ -56,13 +56,17 @@ void http::HTTPServer::onAccept()
 
 void http::HTTPServer::AddQueue(int fd)
 {
+    queue_mut.lock();
     if (fds.size() <= maxWait)
     {
+        fds.emplace(fd);
         LOG(INFO) << "add fd " << fd << " in queue";
         LOG(INFO) << "fds size : " << fds.size();
-        fds.emplace(fd);
     } else
+    {
         close(fd);
+    }
+    queue_mut.unlock();
 }
 
 void http::HTTPServer::Run()
@@ -101,12 +105,9 @@ void http::HTTPServer::Application()
             int fd = fds.front();
             fds.pop();
             TcpSocketServer::onRead(fd, data);
-            LOG(INFO) << "data:" << data;
+            LOG(INFO) << "\ndata:\n" << data;
             HTTPContext context(data);
-//            boost::thread handler(handler_fun, context, fd);
             handler_fun(context, fd);
-//            handler.join();
-            LOG(INFO) << "艹";
         }
         queue_mut.unlock();
     }
