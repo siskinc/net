@@ -29,6 +29,11 @@ public:
 
 private:
     boost::container::vector<HTTPHandler> handlers;
+    static std::string filename404;
+public:
+    static const std::string &GetFilename404();
+
+    static void SetFilename404(const std::string &filename404);
 };
 
 }

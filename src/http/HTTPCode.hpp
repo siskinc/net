@@ -214,7 +214,7 @@ inline const std::string &GetHTTPCodeDescription(HTTPCode code)
         if(code == item.code)
             return item.HTTP_code_description[0];
     }
-    return descriptions[0].HTTP_code_description[0];
+    return descriptions[27].HTTP_code_description[0];
 }
 
 }

@@ -144,11 +144,11 @@ const std::string http::HTTPContext::ToString() const
 void http::HTTPContext::NotFound404(std::string filename)
 {
     response_body.clear();
+    this->code = static_cast<HTTPCode>(404);
     if (filename.empty())
     {
         return;
     }
-    this->code = code;
     response_body = GetFileContext(filename);
 }
 

@@ -48,6 +48,6 @@ set(SRC src/sockets/Socket.hpp
         src/parser/json11/json11.cpp)
 
 
-add_executable(util-cpp main.cpp ${SRC})
+add_executable(qunland main.cpp ${SRC})
 
-target_link_libraries(util-cpp pthread boost_system boost_thread glog)
+target_link_libraries(qunland pthread boost_system boost_thread glog)
